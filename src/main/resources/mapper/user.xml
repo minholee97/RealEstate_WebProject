@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.dao.UserDao">
+		
+		<select id="login" parameterType="HashMap" resultType="User">
+			select * from userinfo where id=#{id} and password=#{password}
+		</select>
+		
+		<insert id="regist"	 parameterType="User">
+			insert into userinfo(id, password, name, email, phone, dongCode)
+			values(#{id}, #{password}, #{name}, #{email}, #{phone}, #{dongCode})
+		</insert>
+		
+		<select id="searchAll" resultType="User">
+			select * from userinfo where id not in ('admin')
+		</select>
+		
+		<update id="update"	 parameterType="User">
+			update userinfo set password = #{password},
+							name = #{name},
+							email = #{email},
+							phone = #{phone},
+							dongCode = #{dongCode}	
+			where id = #{id}					
+		</update>
+		<delete id="delete" parameterType="string">
+			delete from userinfo where id = #{id}
+		</delete>
+		
+		<select id="checkId" parameterType="string" resultType="User">
+			select * from userinfo where id = #{id}
+		</select>
+		
+		<select id="checkInfo" parameterType="string" resultType="User">
+			select * from userinfo where id = #{id} and email = #{email} and phone = #{phone}
+		</select>
+		
+		<update id="updatePassword"	 parameterType="string">
+			update userinfo set password = #{pass}
+			where id = #{id}					
+		</update>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.dao.QnaDao">
+		<delete id="deleteQna"	 parameterType="int">
+			delete from qna where no = #{no}
+		</delete>
+		
+		<insert id="registQna"	parameterType="Qna">
+			insert into qna(title, authorId, regdate, hit, password, writerId, answer, content) 
+			values(#{title}, #{authorId}, NOW(), 0, #{password}, null, null, #{content})
+			 
+		</insert>
+		
+		<select id="searchAllQna"  parameterType="PageBean"	resultType="Qna">
+			select * from qna
+			<where>
+				<if test="word != null and word !=''  ">
+					<choose>
+						<when test=" key == 'no' ">
+							no = #{word}
+						</when>
+						<when test=" key == 'title' ">
+							title like concat('%',#{word},'%')
+						</when>
+						<when test=" key == 'authorId' ">
+							authorId like concat('%',#{word},'%')
+						</when>
+					</choose>		
+				</if>
+			</where>
+		</select>
+		
+		<select id="searchUserQna"  parameterType="string" resultType="Qna">
+			select * from qna where authorId = #{id}
+			<where>
+				<if test="word != null and word !=''  ">
+					<choose>
+						<when test=" key == 'no' ">
+							no = #{word}
+						</when>
+						<when test=" key == 'title' ">
+							title like concat('%',#{word},'%') 
+						</when>
+						<when test=" key == 'authorId' ">
+							authorId like concat('%',#{word},'%')
+						</when>
+					</choose>		
+				</if>
+			</where>
+			
+		</select>
+		
+		<select id="searchQna" parameterType="int" resultType="Qna">
+			select * from qna where no = #{no}
+		</select>
+		
+		<update id="updateQna" parameterType="Qna">
+			update qna set title = #{title},
+			 				regdate = NOW(),
+			 				content = #{content},
+			 				password = #{password}
+			where no = #{no}					
+		</update>
+		
+		<update id="answerQna" parameterType="Qna">
+			update qna set writerId = #{writerId},
+			 				answer = #{answer}
+			where no = #{no}					
+		</update>
+		
+		<update id="updateHit" parameterType="int">
+			update qna set hit = hit + 1
+			where no = #{no}					
+		</update>
+</mapper>

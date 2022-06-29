@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.dao.WishDao">
+		
+		
+		<select id="searchAllWish"  parameterType="string"	resultType="Wish">
+			select * from wish where userId like #{userId};
+		</select>
+		
+		<select id="searchWish" parameterType="Wish" resultType="Wish">
+			select * from wish where userId = #{userId} and houseId = #{houseId}
+		</select>
+		
+		<insert id="registWish"	parameterType="Wish">
+			insert into wish(houseId, userId) 
+			values(#{houseId}, #{userId})
+		</insert>
+		
+		<delete id="deleteWish"	 parameterType="Wish">
+			delete from wish where houseId = #{houseId} and userId = #{userId}
+		</delete>
+		
+</mapper>

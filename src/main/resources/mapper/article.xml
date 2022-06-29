@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.dao.ArticleDao">
+	<insert id="crawlingArticle">
+		INSERT INTO article(
+		title,
+		content,
+		regdate,
+		domain
+		)VALUES
+		<foreach collection="list" item="article" separator=" , ">
+			(
+			#{article.title},
+			#{article.content},
+			#{article.regdate},
+			#{article.domain}
+			)
+		</foreach>
+	</insert>
+	<select id="getMaxDate" parameterType="string"
+		resultType="ArticleDto">
+		SELECT *
+		FROM article
+		WHERE domain=#{domain}
+		ORDER BY
+		regdate
+		DESC
+		LIMIT 1
+	</select>
+	<select id="searchAll" parameterType="map"
+		resultType="ArticleDto">
+		select * from article
+		<where>
+			<if test="word != null and word !=''  ">
+				<choose>
+					<when test=" key == 'all' ">
+						content like concat('%',#{word},'%')
+					</when>
+					<when test=" key == 'naver' ">
+						content like concat('%',#{word},'%') and domain="naver"
+					</when>
+					<when test=" key == 'daum' ">
+						content like concat('%',#{word},'%') and domain="daum"
+					</when>
+				</choose>
+			</if>
+			<if test="word == null or word ==''  ">
+				<choose>
+					<when test=" key == null or key =='' ">
+					</when>
+					<when test=" key != 'all'  and key != ''">
+						domain=#{key}
+					</when>
+				</choose>
+			</if>
+		</where>
+		ORDER BY
+		regdate DESC
+		limit #{start}, #{spp}
+	</select>
+	<select id="getTotalCount" parameterType="map" resultType="int">
+		select count(articleno)
+		from article
+		<where>
+			<if test="word != null and word !=''  ">
+				<choose>
+					<when test=" key == 'all' ">
+						content like concat('%',#{word},'%')
+					</when>
+					<when test=" key == 'naver' ">
+						content like concat('%',#{word},'%') and domain="naver"
+					</when>
+					<when test=" key == 'daum' ">
+						content like concat('%',#{word},'%') and domain="daum"
+					</when>
+				</choose>
+			</if>
+			<if test="word == null or word ==''  ">
+				<choose>
+					<when test=" key == null ">
+					</when>
+					<when test=" key != 'all'  and key != ''">
+						domain=#{key}
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+</mapper>

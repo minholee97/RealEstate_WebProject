@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.dao.DealInfoDao">
+
+    <resultMap type="DealInfoDto" id="dealinfolist">
+        <result column="aptcode" property="aptCode" />
+        <result column="aptname" property="aptName" />
+        <result column="dealamount" property="dealAmount" />
+        <result column="dealyear" property="dealYear" />
+        <result column="floor" property="floor" />
+        <result column="dongname" property="dongName" />
+        <result column="dealmounth" property="dealMonth" />
+        <result column="dealday" property="dealDay" />
+        <result column="dongcode" property="dongCode" />
+        <result column="lat" property="lat" />
+        <result column="lng" property="lng" />
+        <result column="img" property="img" />
+        <result column="jibun" property="jibun" />
+        <result column="buildYear" property="buildYear" />
+        <result column="no" property="no" />
+    </resultMap>
+    <sql id="search">
+        and dongcode = #{dongcode}
+    </sql>
+
+    <select id="listDealInfo" parameterType="map" resultMap="dealinfolist">
+        select d.aptCode, i.aptName, d.dealAmount, d.dealYear, d.dealMonth, i.dongCode, i.lat, i.lng,
+        d.dealDay, d.floor, i.dongName, i.img, i.jibun, i.buildYear, d.no
+        from housedeal d, houseinfo i
+        where d.aptCode = i.aptCode
+        <include refid="search"></include>
+        order by i.aptName asc
+        limit #{start}, #{spp}
+    </select>
+
+
+    <select id="getTotalCount" parameterType="map" resultType="int">
+        select count(d.aptCode)
+        from housedeal d, houseinfo i
+        where d.aptCode = i.aptCode
+        <include refid="search"></include>
+    </select>
+
+	<select id="searchDealInfo" parameterType="int" resultMap="dealinfolist">
+		select d.aptCode, i.aptName, d.dealAmount, d.dealYear, d.dealMonth, i.dongCode, i.lat, i.lng,
+        d.dealDay, d.floor, i.dongName, i.img, i.jibun, i.buildYear, d.no
+        from housedeal d, houseinfo i
+        where d.no = #{no} and d.aptCode = i.aptCode
+	</select>
+
+
+</mapper>
