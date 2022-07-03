@@ -34,3 +34,13 @@
   ![image](https://user-images.githubusercontent.com/76832861/177030067-c22de631-e276-4e60-afd7-ab495be1e207.png)
   - 상세 조회 및 상권 정보 조회
   ![image](https://user-images.githubusercontent.com/76832861/177030294-f003d4fb-4167-404e-97ab-9bf6e2214029.png)
+#### 부동산 뉴스 조회 기능
+  ![image](https://user-images.githubusercontent.com/76832861/177030340-6cdf2bdb-e040-41e6-b37c-d698f27f300b.png)
+#### 관리자 기능
+  - 회원 조회/수정/삭제
+  ![image](https://user-images.githubusercontent.com/76832861/177030368-a91e77c5-9146-4208-8c6c-ee5b0477d49b.png)
+  - 공지 사항 등록/수정/삭제
+  ![image](https://user-images.githubusercontent.com/76832861/177030388-af722bc2-ac3c-4856-9565-d0aab8262119.png)
+
+
+
